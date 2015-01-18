@@ -105,11 +105,14 @@
         <div id="navbar" class="navbar-collapse collapse">
             <form class="navbar-form navbar-right">
                 <div class="form-group">
-                    <input type="text" placeholder="End" ng-model="max">
+                    <input type="date" placeholder="End" ng-model="maxDate">
                 </div>
+                <!--<div class="form-group">-->
+                    <!--<input type="text" placeholder="Countdown To" ng-model="label">-->
+                <!--</div>-->
                 <button ng-click="start();">Start</button>
                 <button ng-click="stop();">Stop</button>
-                <button ng-click="reset();">Reset</button>
+                <button ng-click="set();">Set</button>
             </form>
         </div><!--/.navbar-collapse -->
     </div>
@@ -119,21 +122,21 @@
     <!-- Example row of columns -->
     <div class="row">
         <div class="col-md-12">
-            <div class="progress-text" ng-style="{'font-size': ((radius + stroke)/6)+'px'}">
+            <div class="progress-text" style="font-size: 70px;">
                 Remaining
             </div>
             <br/>
             <br/>
-            <div class="progress-text"  ng-style="{'font-size': ((radius + stroke)/3)+'px'}">
-                {{ max - uploadCurrent}} Days
+            <div class="progress-text" style="font-size: 140px;" >
+                {{ daysR }} Days
             </div>
             <br/>
-            <div class="progress-text" ng-style="{'font-size': ((radius + stroke)/3)+'px'}">
-                {{ (max - uploadCurrent) * 8}} Work Hours
+            <div class="progress-text" style="font-size: 140px;">
+                {{ workHoursR }} Work Hours
             </div>
             <br/>
-            <div class="progress-text" ng-style="{'font-size': ((radius + stroke)/3)+'px'}">
-                {{ ((max - uploadCurrent) / 100)*100}}%
+            <div class="progress-text" style="font-size: 140px;">
+                {{ pctR }}%
             </div>
 
         </div>

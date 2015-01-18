@@ -2,19 +2,21 @@ angular.module('t-minus', ['angular-svg-round-progress'])
         .controller('demoCtrl', ['$scope', '$timeout', 'roundProgressService', function($scope, $timeout, roundProgressService){
 
             $scope.current =        27;
-            $scope.max =            100;
-            $scope.uploadCurrent =  0;
-            $scope.stroke =         30;
-            $scope.radius =         300;
-            $scope.isSemi =         false;
+            $scope.maxDate = "";
+            $scope.max =            0;
+            $scope.label =          "";
+            $scope.remaining =       0;
             $scope.currentColor = '05009f';
-            $scope.colors = ['#e9f0ff', '#8fdaff', '#1f67ff', '#05009f', '#000131', '#ff0000']
             $scope.bgColor =        '#eaeaea';
-            $scope.iterations =     50;
-            $scope.currentAnimation = 'easeOutCubic';
+            $scope.daysR =              0;
+            $scope.workHoursR =         0;
+            $scope.pctR =               0.00;
+            $scope.radius = 100;
+            $scope.stroke = 15;
 
 
-            var random = function(min, max){
+
+             var random = function(min, max){
                 return Math.round(Math.floor(Math.random()*(max-min+1)+min));
             },
             timeout;
@@ -27,13 +29,22 @@ angular.module('t-minus', ['angular-svg-round-progress'])
                 $scope.current-=(amount || 1);
             };
 
+            $scope.$watch("maxDate", function(v){
+                if(v){
+                    $scope.max = Date.parse($scope.maxDate);
+                }
+            })
+
             $scope.start = function(){
                 $scope.stop();
                 timeout = $timeout(function(){
-                    $scope.uploadCurrent+=1;
-                    //$scope.currentColor = $scope.colors[$scope.uploadCurrent/20];
+                    $scope.remaining = $scope.max - new Date().getTime();
+                    $scope.daysR = Math.ceil( $scope.remaining / (1000 * 3600 * 24));
+                    $scope.workHoursR = $scope.daysR * 8;
+                    $scope.pctR = Math.floor((($scope.max - $scope.remaining) / $scope.max) * 10000) / 100;
 
-                    if($scope.uploadCurrent < 100){
+
+                    if($scope.remaining < $scope.max && $scope.remaining >0){
                         $scope.start();
                     }
                 }, 1000);
@@ -45,7 +56,7 @@ angular.module('t-minus', ['angular-svg-round-progress'])
 
             $scope.reset = function(){
                 $scope.stop();
-                $scope.uploadCurrent = 0;
+                $scope.remaining = 0;
             };
 
             $scope.animations = [];
